@@ -28,8 +28,9 @@ function Menu() {
             <Link to={'/recipe/' + recipe.id}>
               <h4>{recipe.name}</h4>
               <img src={recipe.image} alt={recipe.title} />
-              <p>{tagsString}</p> {/* Output the limited tags */}
             </Link>
+            <p>Tags: {tagsString}</p> {/* Output the limited tags */}
+            <p>Author: {recipe.author}</p>
           </Card>
         );
       })}
