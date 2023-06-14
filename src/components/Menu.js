@@ -9,18 +9,23 @@ function Menu() {
   }, []);
 
   const getRecipes = async () => {
-    const api = await fetch(
-      `https://react-http-98ba6-default-rtdb.europe-west1.firebasedatabase.app/recipes.json`
-    );
-    const data = await api.json();
-    console.log(data);
-    setList(data);
+    try {
+      const api = await fetch(
+        'https://react-http-98ba6-default-rtdb.europe-west1.firebasedatabase.app/recipes.json'
+      );
+      const data = await api.json();
+      console.log(data);
+      console.log('run');
+      setList(data || []); // Set an empty array as default if data is null or undefined
+    } catch (error) {
+      console.error('Error fetching recipes:', error);
+    }
   };
 
   return (
     <Grid>
       {list.map((recipe) => {
-        const limitedTags = recipe.tags.slice(0, 3); // Extract only the first 3 tags
+        const limitedTags = recipe.tags?.slice(0, 3) || []; // Check if tags exist and slice the array
         const tagsString = limitedTags.join(', '); // Join the limited tags into a string
 
         return (
