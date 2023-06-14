@@ -47,22 +47,22 @@ function Recipe() {
         >
           Ingredients
         </Button>
-        {activeTab === 'instructions' && (
+        {activeTab === 'instructions' && details.instructions && (
           <div>
             <h2>Instructions: </h2>
             <ol>
-              {details.instructions.map((instructions) => (
-                <li>{instructions}</li>
+              {details.instructions.map((instruction) => (
+                <li key={instruction}>{instruction}</li>
               ))}
             </ol>
           </div>
         )}
-        {activeTab === 'ingredients' && (
+        {activeTab === 'ingredients' && details.ingredients && (
           <div>
             <h2>Required ingredients</h2>
             <ul>
-              {details.ingredients.map((ingredients) => (
-                <li>{ingredients}</li>
+              {details.ingredients.map((ingredient) => (
+                <li key={ingredient}>{ingredient}</li>
               ))}
             </ul>
           </div>
