@@ -28,7 +28,7 @@ function Recipe() {
   return (
     <DetailWrapper>
       <div>
-        <h2>{details.title}</h2>
+        <h2>{details.name}</h2>
         <img src={details.image} alt="" />
         <h2>Description: </h2>
         <h3 dangerouslySetInnerHTML={{ __html: details.description }}></h3>
