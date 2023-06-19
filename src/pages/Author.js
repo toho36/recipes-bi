@@ -9,12 +9,12 @@ const Author = () => {
   const selectedAuthor = params.author;
   const [searchedAuthor, setSearchedAuthor] = useState([]);
 
-  const useQuery = () => {
-    return new URLSearchParams(useLocation().selectedAuthor);
-  };
+  // const useQuery = () => {
+  //   return new URLSearchParams(useLocation().selectedAuthor);
+  // };
 
-  let query = useQuery();
-  let author = query.get('author');
+  // let query = useQuery();
+  // let author = query.get('author');
   console.log('author', selectedAuthor);
 
   useEffect(() => {
@@ -33,7 +33,9 @@ const Author = () => {
           console.log('array ' + authorArray);
           // Filter the recipes based on partial match of the name
           // const filteredAuthor = authorArray.filter((recipe) => {
-          //   return recipe.author.toLowerCase().includes(search.toLowerCase());
+          //   return recipe.author
+          //     .toLowerCase()
+          //     .includes(selectedAuthor.toLowerCase());
           // });
 
           setSearchedAuthor(authorArray);
