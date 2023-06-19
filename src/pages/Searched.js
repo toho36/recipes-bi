@@ -45,7 +45,7 @@ const Searched = () => {
           <Card key={item.id}>
             <Link to={'/recipe/' + item.id}>
               <h4>{item.name}</h4>
-              <img src={item.image} alt={item.title} />
+              <img src={item.image} alt={item.name} />
               {/* <p>{recipe.tags}</p> */}
             </Link>
           </Card>
@@ -61,7 +61,10 @@ const Grid = styled.div`
 `;
 const Card = styled.div`
   img {
+    display: block; /* Ensures the image is treated as a block element */
+    margin: 0 auto; /* Sets the left and right margins to 'auto' */
     width: 100%;
+    max-width: 40rem;
     border-radius: 2rem;
   }
   p {
