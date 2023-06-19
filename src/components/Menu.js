@@ -27,6 +27,7 @@ function Menu() {
       {list.map((recipe) => {
         const limitedTags = recipe.tags?.slice(0, 3) || []; // Check if tags exist and slice the array
         const tagsString = limitedTags.join(', '); // Join the limited tags into a string
+        // console.log(recipe.author);
 
         return (
           <Card key={recipe.id}>
@@ -35,7 +36,9 @@ function Menu() {
               <img src={recipe.image} alt={recipe.title} />
             </Link>
             <p>Tags: {tagsString}</p> {/* Output the limited tags */}
-            <p>Author: {recipe.author}</p>
+            <Link to={'/author/' + recipe.author}>
+              <p>Author: {recipe.author}</p>
+            </Link>
           </Card>
         );
       })}
