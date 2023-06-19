@@ -5,52 +5,50 @@ import { useParams } from 'react-router-dom';
 import styled from 'styled-components';
 import { Fragment } from 'react';
 
-const Author = () => {
+function Tag() {
   let params = useParams();
-  const selectedAuthor = params.author;
-  const [searchedAuthor, setSearchedAuthor] = useState([]);
-
-  // const useQuery = () => {
-  //   return new URLSearchParams(useLocation().selectedAuthor);
-  // };
-
-  // let query = useQuery();
-  // let author = query.get('author');
-  console.log('author', selectedAuthor);
+  const selectedTag = params.tag;
+  const [searchedTag, setSearchedTag] = useState([]);
+  console.log('tag', selectedTag);
 
   useEffect(() => {
     searchData();
-  }, [selectedAuthor]);
+  }, [selectedTag]);
 
   const searchData = () => {
     fireDb
       .child('recipes')
-      .orderByChild('author')
-      .equalTo(selectedAuthor)
-      .on('value', (snapshot) => {
+      .orderByChild('tags')
+      .once('value', (snapshot) => {
         if (snapshot.val()) {
           const data = snapshot.val();
-          const authorArray = Object.values(data);
-          console.log('array ' + authorArray);
-          // Filter the recipes based on partial match of the name
-          // const filteredAuthor = authorArray.filter((recipe) => {
-          //   return recipe.author
-          //     .toLowerCase()
-          //     .includes(selectedAuthor.toLowerCase());
-          // });
+          const tagArray = Object.values(data);
 
-          setSearchedAuthor(authorArray);
+          const filteredRecipes = tagArray.filter((recipe) => {
+            // Check if the recipe has tags
+            if (recipe.tags && Array.isArray(recipe.tags)) {
+              // Convert the tags to lowercase for case-insensitive comparison
+              const lowercaseTags = recipe.tags.map((tag) => tag.toLowerCase());
+
+              // Check if the selectedTag exists in the lowercaseTags array
+              return lowercaseTags.includes(selectedTag.toLowerCase());
+            }
+
+            return false;
+          });
+
+          setSearchedTag(filteredRecipes);
         } else {
-          setSearchedAuthor([]); // Set an empty array if no matching recipes found
+          setSearchedTag([]);
         }
       });
   };
   return (
     <Grid>
-      {searchedAuthor.map((item) => {
-        const limitedTags = item.tags?.slice(0, 3) || []; // Check if tags exist and slice the array
-        const tagsString = limitedTags.join(', '); // Join the limited tags into a string
-
+      {searchedTag.map((item) => {
+        const limitedTag = item.tags?.slice(0, 3) || []; // Check if tag exist and slice the array
+        // const tagString = limitedTag.join(', '); // Join the limited tag into a string
+        console.log(item);
         return (
           <Card key={item.id}>
             <Link to={'/recipe/' + item.id}>
@@ -59,10 +57,10 @@ const Author = () => {
             </Link>
             <p>
               Tags:{' '}
-              {limitedTags.map((tag, index) => (
+              {limitedTag.map((tag, index) => (
                 <Fragment key={index}>
                   <Link to={'/tag/' + tag}>{tag}</Link>
-                  {index !== limitedTags.length - 1 && ', '}
+                  {index !== limitedTag.length - 1 && ', '}
                 </Fragment>
               ))}
             </p>
@@ -74,7 +72,7 @@ const Author = () => {
       })}
     </Grid>
   );
-};
+}
 const Grid = styled.div`
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(20rem, 1fr));
@@ -97,4 +95,4 @@ const Card = styled.div`
   }
 `;
 
-export default Author;
+export default Tag;

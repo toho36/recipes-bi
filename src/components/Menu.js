@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react';
 import styled from 'styled-components';
 import { Link } from 'react-router-dom';
+import { Fragment } from 'react';
 
 function Menu() {
   const [list, setList] = useState([]);
@@ -26,7 +27,7 @@ function Menu() {
     <Grid>
       {list.map((recipe) => {
         const limitedTags = recipe.tags?.slice(0, 3) || []; // Check if tags exist and slice the array
-        const tagsString = limitedTags.join(', '); // Join the limited tags into a string
+        // const tagsString = limitedTags.join(', '); // Join the limited tags into a string
         // console.log(recipe.author);
 
         return (
@@ -35,7 +36,15 @@ function Menu() {
               <h4>{recipe.name}</h4>
               <img src={recipe.image} alt={recipe.title} />
             </Link>
-            <p>Tags: {tagsString}</p> {/* Output the limited tags */}
+            <p>
+              Tags:{' '}
+              {limitedTags.map((tag, index) => (
+                <Fragment key={index}>
+                  <Link to={'/tag/' + tag}>{tag}</Link>
+                  {index !== limitedTags.length - 1 && ', '}
+                </Fragment>
+              ))}
+            </p>
             <Link to={'/author/' + recipe.author}>
               <p>Author: {recipe.author}</p>
             </Link>

@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { useLocation, Link } from 'react-router-dom';
 import fireDb from '../firebase';
 import styled from 'styled-components';
+import { Fragment } from 'react';
 
 const Searched = () => {
   const [searchedRecipes, setSearchedRecipes] = useState([]);
@@ -42,7 +43,7 @@ const Searched = () => {
     <Grid>
       {searchedRecipes.map((item) => {
         const limitedTags = item.tags?.slice(0, 3) || []; // Check if tags exist and slice the array
-        const tagsString = limitedTags.join(', '); // Join the limited tags into a string
+        // const tagsString = limitedTags.join(', '); // Join the limited tags into a string
 
         return (
           <Card key={item.id}>
@@ -51,8 +52,18 @@ const Searched = () => {
               <img src={item.image} alt={item.name} />
               {/* <p>{recipe.tags}</p> */}
             </Link>
-            <p>Tags: {tagsString}</p> {/* Output the limited tags */}
-            <p>Author: {item.author}</p>
+            <p>
+              Tags:{' '}
+              {limitedTags.map((tag, index) => (
+                <Fragment key={index}>
+                  <Link to={'/tag/' + tag}>{tag}</Link>
+                  {index !== limitedTags.length - 1 && ', '}
+                </Fragment>
+              ))}
+            </p>
+            <Link to={'/author/' + item.author}>
+              <p>Author: {item.author}</p>
+            </Link>
           </Card>
         );
       })}
