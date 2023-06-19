@@ -41,6 +41,9 @@ const Searched = () => {
   return (
     <Grid>
       {searchedRecipes.map((item) => {
+        const limitedTags = item.tags?.slice(0, 3) || []; // Check if tags exist and slice the array
+        const tagsString = limitedTags.join(', '); // Join the limited tags into a string
+
         return (
           <Card key={item.id}>
             <Link to={'/recipe/' + item.id}>
@@ -48,6 +51,8 @@ const Searched = () => {
               <img src={item.image} alt={item.name} />
               {/* <p>{recipe.tags}</p> */}
             </Link>
+            <p>Tags: {tagsString}</p> {/* Output the limited tags */}
+            <p>Author: {item.author}</p>
           </Card>
         );
       })}

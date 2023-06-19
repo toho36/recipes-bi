@@ -8,7 +8,11 @@ function SearchBar() {
 
   const submitHandler = (e) => {
     e.preventDefault();
-    navigate(`/search?name=${input}`);
+    if (input.trim() === '') {
+      navigate('/'); // Navigate to the homepage if the search input is empty
+    } else {
+      navigate(`/search?name=${input}`);
+    }
   };
   return (
     <div>
