@@ -10,12 +10,6 @@ const Author = () => {
   const selectedAuthor = params.author;
   const [searchedAuthor, setSearchedAuthor] = useState([]);
 
-  // const useQuery = () => {
-  //   return new URLSearchParams(useLocation().selectedAuthor);
-  // };
-
-  // let query = useQuery();
-  // let author = query.get('author');
   console.log('author', selectedAuthor);
 
   useEffect(() => {
@@ -26,22 +20,19 @@ const Author = () => {
     fireDb
       .child('recipes')
       .orderByChild('author')
-      .equalTo(selectedAuthor)
       .on('value', (snapshot) => {
         if (snapshot.val()) {
           const data = snapshot.val();
           const authorArray = Object.values(data);
-          console.log('array ' + authorArray);
-          // Filter the recipes based on partial match of the name
-          // const filteredAuthor = authorArray.filter((recipe) => {
-          //   return recipe.author
-          //     .toLowerCase()
-          //     .includes(selectedAuthor.toLowerCase());
-          // });
 
-          setSearchedAuthor(authorArray);
+          // Filter the authorArray based on a partial match with selectedAuthor
+          const filteredAuthors = authorArray.filter((item) =>
+            item.author.toLowerCase().includes(selectedAuthor.toLowerCase())
+          );
+
+          setSearchedAuthor(filteredAuthors);
         } else {
-          setSearchedAuthor([]); // Set an empty array if no matching recipes found
+          setSearchedAuthor([]); // Set an empty array if no matching authors found
         }
       });
   };

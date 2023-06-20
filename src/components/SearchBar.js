@@ -56,8 +56,8 @@ function SearchBar() {
         <label>
           <input
             type="radio"
-            value="author"
-            checked={searchOption === 'author'}
+            value="authors"
+            checked={searchOption === 'authors'}
             onChange={handleOptionChange}
           />
           Author
