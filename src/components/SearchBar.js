@@ -4,6 +4,7 @@ import { useNavigate } from 'react-router-dom';
 
 function SearchBar() {
   const [input, setInput] = useState('');
+  const [searchOption, setSearchOption] = useState('name'); // Default search option is 'name'
   const navigate = useNavigate();
 
   const submitHandler = (e) => {
@@ -11,9 +12,20 @@ function SearchBar() {
     if (input.trim() === '') {
       navigate('/'); // Navigate to the homepage if the search input is empty
     } else {
-      navigate(`/search?name=${input}`);
+      if (searchOption === 'name') {
+        navigate(`/search?name=${input}`);
+      } else if (searchOption === 'tags') {
+        navigate(`/tag/${input}`);
+      } else if (searchOption === 'authors') {
+        navigate(`/author/${input}`);
+      }
     }
   };
+
+  const handleOptionChange = (e) => {
+    setSearchOption(e.target.value);
+  };
+
   return (
     <div>
       <FormStyle onSubmit={submitHandler}>
@@ -23,6 +35,33 @@ function SearchBar() {
           value={input}
           type="text"
         />
+        <label>
+          <input
+            type="radio"
+            value="name"
+            checked={searchOption === 'name'}
+            onChange={handleOptionChange}
+          />
+          Name
+        </label>
+        <label>
+          <input
+            type="radio"
+            value="tags"
+            checked={searchOption === 'tags'}
+            onChange={handleOptionChange}
+          />
+          Tags
+        </label>
+        <label>
+          <input
+            type="radio"
+            value="author"
+            checked={searchOption === 'author'}
+            onChange={handleOptionChange}
+          />
+          Author
+        </label>
       </FormStyle>
     </div>
   );

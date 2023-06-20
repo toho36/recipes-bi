@@ -49,7 +49,7 @@ const Author = () => {
     <Grid>
       {searchedAuthor.map((item) => {
         const limitedTags = item.tags?.slice(0, 3) || []; // Check if tags exist and slice the array
-        const tagsString = limitedTags.join(', '); // Join the limited tags into a string
+        // const tagsString = limitedTags.join(', '); // Join the limited tags into a string
 
         return (
           <Card key={item.id}>
